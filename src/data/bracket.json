@@ -1,0 +1,137 @@
+{
+  "name": "",
+  "username": "",
+  "group_stage": {
+    "group_a": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    },
+    "group_b": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    },
+    "group_c": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    },
+    "group_d": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    },
+    "group_e": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    },
+    "group_f": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    },
+    "group_g": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    },
+    "group_h": {
+      "first": "",
+      "second": "",
+      "third": "",
+      "fourth": ""
+    }
+  },
+  "knockout": {
+    "round_16": {
+      "game_1": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group A Winner vs. Group B Runner-up"
+      },
+      "game_2": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group C Winner vs. Group D Runner-up"
+      },
+      "game_3": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group E Winner vs. Group F Runner-up"
+      },
+      "game_4": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group G Winner vs. Group H Runner-up"
+      },
+      "game_5": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group B Winner vs. Group A Runner-up"
+      },
+      "game_6": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group D Winner vs. Group C Runner-up"
+      },
+      "game_7": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group F Winner vs. Group E Runner-up"
+      },
+      "game_8": {
+        "teams": [],
+        "winner": "",
+        "ref": "Group H Winner vs Group G Runner-up"
+      }
+    },
+    "quarter_finals": {
+      "game_1": {
+        "teams": [],
+        "winner": "",
+        "ref": "RO16 Game 1 & 2 Winners"
+      },
+      "game_2": {
+        "teams": [],
+        "winner": "",
+        "ref": "RO16 Game 3 & 4 Winners"
+      },
+      "game_3": {
+        "teams": [],
+        "winner": "",
+        "ref": "RO16 Game 5 & 6 Winners"
+      },
+      "game_4": {
+        "teams": [],
+        "winner": "",
+        "ref": "RO16 Game 7 & 8 Winners"
+      }
+    },
+    "semi_finals": {
+      "game_1": {
+        "teams": [],
+        "winner": "",
+        "ref": "QF Game 1 & 2 Winners"
+      },
+      "game_2": {
+        "teams": [],
+        "winner": "",
+        "ref": "QF Game 3 & 4 Winners"
+      }
+    },
+    "final": {
+      "teams": [],
+      "winner": "",
+      "ref": "SF Game 1 & 2 Winners"
+    }
+  }
+}
