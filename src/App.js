@@ -30,12 +30,6 @@ class App extends Component {
     state = {
       name: '',
       username: '',
-      list: [
-        {name: 'Egypt'},
-        {name: 'Russia'},
-        {name: 'Saudi Arabia'},
-        {name: 'Uruguay'},
-      ],
       group_stage: {
         group_a: [
           {id: 1, name: "Egypt", group: "A"},
@@ -179,6 +173,87 @@ class App extends Component {
           [group]: newList
         }
       }));
+    };
+
+    toKnockout() {
+      // order should already be set at this point
+      const ro16Matchups = {
+        game_1: [
+          this.state.group_stage.group_a[0],
+          this.state.group_stage.group_b[1],
+        ],
+        game_2: [
+          this.state.group_stage.group_c[0],
+          this.state.group_stage.group_d[1],
+        ],
+        game_3: [
+          this.state.group_stage.group_e[0],
+          this.state.group_stage.group_f[1],
+        ],
+        game_4: [
+          this.state.group_stage.group_g[0],
+          this.state.group_stage.group_h[1],
+        ],
+        game_5: [
+          this.state.group_stage.group_b[0],
+          this.state.group_stage.group_a[1],
+        ],
+        game_6: [
+          this.state.group_stage.group_d[0],
+          this.state.group_stage.group_c[1],
+        ],
+        game_7: [
+          this.state.group_stage.group_f[0],
+          this.state.group_stage.group_e[1],
+        ],
+        game_8: [
+          this.state.group_stage.group_h[0],
+          this.state.group_stage.group_g[1],
+        ]
+      };
+
+      // update RO16 states
+      this.setState(prevState => ({
+        ...prevState,
+        knockout: {
+          ...prevState.knockout,
+          round_16: {
+            ...prevState.knockout.round_16,
+            game_1: {
+              ...prevState.knockout.round_16.game_1,
+              teams: ro16Matchups.game_1
+            },
+            game_2: {
+              ...prevState.knockout.round_16.game_2,
+              teams: ro16Matchups.game_2
+            },
+            game_3: {
+              ...prevState.knockout.round_16.game_3,
+              teams: ro16Matchups.game_3
+            },
+            game_4: {
+              ...prevState.knockout.round_16.game_4,
+              teams: ro16Matchups.game_4
+            },
+            game_5: {
+              ...prevState.knockout.round_16.game_5,
+              teams: ro16Matchups.game_5
+            },
+            game_6: {
+              ...prevState.knockout.round_16.game_6,
+              teams: ro16Matchups.game_6
+            },
+            game_7: {
+              ...prevState.knockout.round_16.game_7,
+              teams: ro16Matchups.game_7
+            },
+            game_8: {
+              ...prevState.knockout.round_16.game_8,
+              teams: ro16Matchups.game_8
+            },
+          }
+        }
+      }));
     }
 
     render() {
@@ -213,7 +288,7 @@ class App extends Component {
             />
           </div>
           <div className="list">
-            <h2>Group C</h2>
+            <h2>Group D</h2>
             <DraggableList
               itemKey="name"
               template={Group}
@@ -222,6 +297,7 @@ class App extends Component {
             />
           </div>
           <div className="list">
+            <h2>Group E</h2>
             <DraggableList
               itemKey="name"
               template={Group}
@@ -230,6 +306,7 @@ class App extends Component {
             />
           </div>
           <div className="list">
+            <h2>Group F</h2>
             <DraggableList
               itemKey="name"
               template={Group}
@@ -238,6 +315,7 @@ class App extends Component {
             />
           </div>
           <div className="list">
+            <h2>Group G</h2>
             <DraggableList
               itemKey="name"
               template={Group}
@@ -246,6 +324,7 @@ class App extends Component {
             />
           </div>
           <div className="list">
+            <h2>Group H</h2>
             <DraggableList
               itemKey="name"
               template={Group}
@@ -253,6 +332,7 @@ class App extends Component {
               onMoveEnd={newList => this.onListChange(newList, 'group_h')}
             />
           </div>
+          <button onClick={this.toKnockout.bind(this)}>Proceed</button>
         </div>
       );
     }
