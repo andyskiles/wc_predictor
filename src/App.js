@@ -147,22 +147,22 @@ class App extends Component {
         },
         quarter_finals: {
           game_1: {
-            teams: [],
+            teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 1 & 2 Winners"
           },
           game_2: {
-            teams: [],
+            teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 3 & 4 Winners"
           },
           game_3: {
-            teams: [],
+            teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 5 & 6 Winners"
           },
           game_4: {
-            teams: [],
+            teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 7 & 8 Winners"
           }
@@ -304,9 +304,155 @@ class App extends Component {
           }
         }
       }));
+
+      switch (round) {
+        case 'round_16':
+          switch(gameKey) {
+            case 'game_1':
+              let gameTeams = this.state.knockout.quarter_finals.game_1.teams;
+              gameTeams[0] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_1: {
+                      ...prevState.knockout.quarter_finals.game_1,
+                      teams: gameTeams
+                    }
+                  }
+                }
+              }));
+              break;
+            case 'game_2':
+              let gameTeams2 = this.state.knockout.quarter_finals.game_1.teams;
+              gameTeams2[1] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_1: {
+                      ...prevState.knockout.quarter_finals.game_1,
+                      teams: gameTeams2
+                    }
+                  }
+                }
+              }));
+              break;
+            case 'game_3':
+              let gameTeams3 = this.state.knockout.quarter_finals.game_2.teams;
+              gameTeams3[0] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_2: {
+                      ...prevState.knockout.quarter_finals.game_2,
+                      teams: gameTeams3
+                    }
+                  }
+                }
+              }));
+              break;
+            case 'game_4':
+              let gameTeams4 = this.state.knockout.quarter_finals.game_2.teams;
+              gameTeams4[1] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_2: {
+                      ...prevState.knockout.quarter_finals.game_2,
+                      teams: gameTeams4
+                    }
+                  }
+                }
+              }));
+              break;
+            case 'game_5':
+              let gameTeams5 = this.state.knockout.quarter_finals.game_3.teams;
+              gameTeams5[0] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_3: {
+                      ...prevState.knockout.quarter_finals.game_3,
+                      teams: gameTeams5
+                    }
+                  }
+                }
+              }));
+              break;
+            case 'game_6':
+              let gameTeams6 = this.state.knockout.quarter_finals.game_3.teams;
+              gameTeams6[1] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_3: {
+                      ...prevState.knockout.quarter_finals.game_3,
+                      teams: gameTeams6
+                    }
+                  }
+                }
+              }));
+              break;
+            case 'game_7':
+              let gameTeams7 = this.state.knockout.quarter_finals.game_4.teams;
+              gameTeams7[0] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_4: {
+                      ...prevState.knockout.quarter_finals.game_4,
+                      teams: gameTeams7
+                    }
+                  }
+                }
+              }));
+              break;
+            case 'game_8':
+              let gameTeams8 = this.state.knockout.quarter_finals.game_4.teams;
+              gameTeams8[1] = winner;
+              this.setState(prevState => ({
+                ...prevState,
+                knockout: {
+                  ...prevState.knockout,
+                  quarter_finals: {
+                    ...prevState.knockout.quarter_finals,
+                    game_4: {
+                      ...prevState.knockout.quarter_finals.game_4,
+                      teams: gameTeams8
+                    }
+                  }
+                }
+              }));
+              break;
+          }
+          break;
+        default:
+          break;
+      }
     }
 
     render() {
+      console.log(this.state.knockout);
       return (
         <div className="main">
           {
