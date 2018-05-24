@@ -49,3 +49,53 @@ body {
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
+
+
+
+.knockout {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.knockout-rounds {
+  display: flex;
+  width: 100%;
+  margin-bottom: 100px;
+}
+
+.knockout-round {
+  width: 25%;
+}
+
+.knockout-games {
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+}
+
+.ko-qf .game {
+  /*display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-direction: column;*/
+}
+
+.game {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.game p {
+  margin: 0;
+}
+
+.game a {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.game a.selected {
+  color: red;
+}

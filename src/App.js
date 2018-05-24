@@ -25,11 +25,25 @@ class Group extends Component {
   }
 }
 
+const Game = (props) => {
+
+  const team1 = props.info.teams[0] ? props.info.teams[0] : {name: 'TBD'},
+        team2 = props.info.teams[1] ? props.info.teams[1] : {name: 'TBD'};
+
+  return (
+    <div className="game">
+      <a className={props.info.winner === team1.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team1, props.round) }}>{team1.name}</a>
+      <a className={props.info.winner === team2.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team2, props.round) }}>{team2.name}</a>
+    </div>
+  );
+};
+
 class App extends Component {
 
     state = {
       name: '',
       username: '',
+      stage: 'group',
       group_stage: {
         group_a: [
           {id: 1, name: "Egypt", group: "A"},
@@ -83,41 +97,49 @@ class App extends Component {
       knockout: {
         round_16: {
           game_1: {
+            id: 1,
             teams: [],
             winner: "",
             ref: "Group A Winner vs. Group B Runner-up"
           },
           game_2: {
+            id: 2,
             teams: [],
             winner: "",
             ref: "Group C Winner vs. Group D Runner-up"
           },
           game_3: {
+            id: 3,
             teams: [],
             winner: "",
             ref: "Group E Winner vs. Group F Runner-up"
           },
           game_4: {
+            id: 4,
             teams: [],
             winner: "",
             ref: "Group G Winner vs. Group H Runner-up"
           },
           game_5: {
+            id: 5,
             teams: [],
             winner: "",
             ref: "Group B Winner vs. Group A Runner-up"
           },
           game_6: {
+            id: 6,
             teams: [],
             winner: "",
             ref: "Group D Winner vs. Group C Runner-up"
           },
           game_7: {
+            id: 7,
             teams: [],
             winner: "",
             ref: "Group F Winner vs. Group E Runner-up"
           },
           game_8: {
+            id: 8,
             teams: [],
             winner: "",
             ref: "Group H Winner vs Group G Runner-up"
@@ -254,85 +276,167 @@ class App extends Component {
           }
         }
       }));
+
+      this.setState({ stage: 'knockout' });
+    }
+
+    toGroupStage() {
+      this.setState({ stage: 'group' });
+    }
+
+    onGameClick(gameInfo, winner, round) {
+      const newGameInfo = gameInfo;
+      newGameInfo.winner = winner.name;
+      const gameKey = `game_${gameInfo.id}`;
+
+      console.log(winner);
+
+      this.setState(prevState => ({
+        ...prevState,
+        knockout: {
+          ...prevState.knockout,
+          [round]: {
+            ...prevState.knockout[round],
+            [gameKey]: {
+              ...prevState.knockout[round][gameKey],
+              newGameInfo
+            }
+          }
+        }
+      }));
     }
 
     render() {
-
       return (
         <div className="main">
-          <div className="list">
-            <h2>Group A</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_a}
-              onMoveEnd={newList => this.onListChange(newList, 'group_a')}
-            />
+          {
+            this.state.stage === 'group' ?
+            <div>
+            <div className="list">
+              <h2>Group A</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_a}
+                onMoveEnd={newList => this.onListChange(newList, 'group_a')}
+              />
+            </div>
+            <div className="list">
+              <h2>Group B</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_b}
+                onMoveEnd={newList => this.onListChange(newList, 'group_b')}
+              />
+            </div>
+            <div className="list">
+              <h2>Group C</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_c}
+                onMoveEnd={newList => this.onListChange(newList, 'group_c')}
+              />
+            </div>
+            <div className="list">
+              <h2>Group D</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_d}
+                onMoveEnd={newList => this.onListChange(newList, 'group_d')}
+              />
+            </div>
+            <div className="list">
+              <h2>Group E</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_e}
+                onMoveEnd={newList => this.onListChange(newList, 'group_e')}
+              />
+            </div>
+            <div className="list">
+              <h2>Group F</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_f}
+                onMoveEnd={newList => this.onListChange(newList, 'group_f')}
+              />
+            </div>
+            <div className="list">
+              <h2>Group G</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_g}
+                onMoveEnd={newList => this.onListChange(newList, 'group_g')}
+              />
+            </div>
+            <div className="list">
+              <h2>Group H</h2>
+              <DraggableList
+                itemKey="name"
+                template={Group}
+                list={this.state.group_stage.group_h}
+                onMoveEnd={newList => this.onListChange(newList, 'group_h')}
+              />
+            </div>
+            <button onClick={this.toKnockout.bind(this)}>VAMOS</button>
           </div>
-          <div className="list">
-            <h2>Group B</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_b}
-              onMoveEnd={newList => this.onListChange(newList, 'group_b')}
-            />
-          </div>
-          <div className="list">
-            <h2>Group C</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_c}
-              onMoveEnd={newList => this.onListChange(newList, 'group_c')}
-            />
-          </div>
-          <div className="list">
-            <h2>Group D</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_d}
-              onMoveEnd={newList => this.onListChange(newList, 'group_d')}
-            />
-          </div>
-          <div className="list">
-            <h2>Group E</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_e}
-              onMoveEnd={newList => this.onListChange(newList, 'group_e')}
-            />
-          </div>
-          <div className="list">
-            <h2>Group F</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_f}
-              onMoveEnd={newList => this.onListChange(newList, 'group_f')}
-            />
-          </div>
-          <div className="list">
-            <h2>Group G</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_g}
-              onMoveEnd={newList => this.onListChange(newList, 'group_g')}
-            />
-          </div>
-          <div className="list">
-            <h2>Group H</h2>
-            <DraggableList
-              itemKey="name"
-              template={Group}
-              list={this.state.group_stage.group_h}
-              onMoveEnd={newList => this.onListChange(newList, 'group_h')}
-            />
-          </div>
-          <button onClick={this.toKnockout.bind(this)}>Proceed</button>
+          : <div className="knockout">
+              <h1>Knockout</h1>
+              <div className="knockout-rounds">
+                <div className="knockout-round">
+                  <h2>Round of 16</h2>
+                  <div className="knockout-games ko-16">
+                    <Game info={this.state.knockout.round_16.game_1} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.round_16.game_2} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.round_16.game_3} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.round_16.game_4} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.round_16.game_5} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.round_16.game_6} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.round_16.game_7} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.round_16.game_8} round="round_16" teamClick={this.onGameClick.bind(this)} />
+                  </div>
+                </div>
+                <div className="knockout-round">
+                  <h2>Quarter-Finals</h2>
+                  <div className="knockout-games ko-qf">
+                    <Game info={this.state.knockout.quarter_finals.game_1} round="quarter_finals" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.quarter_finals.game_2} round="quarter_finals" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.quarter_finals.game_3} round="quarter_finals" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.quarter_finals.game_4} round="quarter_finals" teamClick={this.onGameClick.bind(this)} />
+                  </div>
+                </div>
+                <div className="knockout-round">
+                  <h2>Semi-Finals</h2>
+                  <div className="knockout-games ko-sf">
+                    <div className="game">
+                      <p>Team 1</p>
+                      <p>Team 2</p>
+                    </div>
+                    <div className="game">
+                      <p>Team 1</p>
+                      <p>Team 2</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="knockout-round">
+                  <h2>Final</h2>
+                  <div className="knockout-games ko-f">
+                    <div className="game">
+                      <p>Team 1</p>
+                      <p>Team 2</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button onClick={this.toGroupStage.bind(this)}>GROUP STAGE</button>
+            </div>
+          }
         </div>
       );
     }
