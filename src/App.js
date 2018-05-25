@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import DraggableList from 'react-draggable-list';
+import bracketUpdater from './bracket';
 import './App.css';
 
 class Group extends Component {
@@ -27,13 +28,13 @@ class Group extends Component {
 
 const Game = (props) => {
 
-  const team1 = props.info.teams[0] ? props.info.teams[0] : {name: 'TBD'},
-        team2 = props.info.teams[1] ? props.info.teams[1] : {name: 'TBD'};
+  const team1 = props.info.teams[0] ? props.info.teams[0] : '',
+        team2 = props.info.teams[1] ? props.info.teams[1] : '';
 
   return (
     <div className="game">
-      <a className={props.info.winner === team1.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team1, props.round) }}>{team1.name}</a>
-      <a className={props.info.winner === team2.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team2, props.round) }}>{team2.name}</a>
+      <a className={props.info.winner.name === team1.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team1, props.round) }}>{team1.name}</a>
+      <a className={props.info.winner.name === team2.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team2, props.round) }}>{team2.name}</a>
     </div>
   );
 };
@@ -147,21 +148,25 @@ class App extends Component {
         },
         quarter_finals: {
           game_1: {
+            id: 1,
             teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 1 & 2 Winners"
           },
           game_2: {
+            id: 2,
             teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 3 & 4 Winners"
           },
           game_3: {
+            id: 3,
             teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 5 & 6 Winners"
           },
           game_4: {
+            id: 4,
             teams: [{}, {}],
             winner: "",
             ref: "RO16 Game 7 & 8 Winners"
@@ -169,18 +174,21 @@ class App extends Component {
         },
         semi_finals: {
           game_1: {
-            teams: [],
+            id: 1,
+            teams: [{}, {}],
             winner: "",
             ref: "QF Game 1 & 2 Winners"
           },
           game_2: {
-            teams: [],
+            id: 2,
+            teams: [{}, {}],
             winner: "",
             ref: "QF Game 3 & 4 Winners"
           }
         },
         final: {
-          teams: [],
+          id: 1,
+          teams: [{}, {}],
           winner: "",
           ref: "SF Game 1 & 2 Winners"
         }
@@ -277,6 +285,19 @@ class App extends Component {
         }
       }));
 
+      const ro16 = [
+        ro16Matchups.game_1,
+        ro16Matchups.game_2,
+        ro16Matchups.game_3,
+        ro16Matchups.game_4,
+        ro16Matchups.game_5,
+        ro16Matchups.game_6,
+        ro16Matchups.game_7,
+        ro16Matchups.game_8
+      ];
+
+      this.setState({ round_16: ro16 });
+
       this.setState({ stage: 'knockout' });
     }
 
@@ -289,170 +310,12 @@ class App extends Component {
       newGameInfo.winner = winner.name;
       const gameKey = `game_${gameInfo.id}`;
 
-      console.log(winner);
+      const updatedKnockout = bracketUpdater(this.state.knockout, round, gameKey, winner);
 
-      this.setState(prevState => ({
-        ...prevState,
-        knockout: {
-          ...prevState.knockout,
-          [round]: {
-            ...prevState.knockout[round],
-            [gameKey]: {
-              ...prevState.knockout[round][gameKey],
-              newGameInfo
-            }
-          }
-        }
-      }));
-
-      switch (round) {
-        case 'round_16':
-          switch(gameKey) {
-            case 'game_1':
-              let gameTeams = this.state.knockout.quarter_finals.game_1.teams;
-              gameTeams[0] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_1: {
-                      ...prevState.knockout.quarter_finals.game_1,
-                      teams: gameTeams
-                    }
-                  }
-                }
-              }));
-              break;
-            case 'game_2':
-              let gameTeams2 = this.state.knockout.quarter_finals.game_1.teams;
-              gameTeams2[1] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_1: {
-                      ...prevState.knockout.quarter_finals.game_1,
-                      teams: gameTeams2
-                    }
-                  }
-                }
-              }));
-              break;
-            case 'game_3':
-              let gameTeams3 = this.state.knockout.quarter_finals.game_2.teams;
-              gameTeams3[0] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_2: {
-                      ...prevState.knockout.quarter_finals.game_2,
-                      teams: gameTeams3
-                    }
-                  }
-                }
-              }));
-              break;
-            case 'game_4':
-              let gameTeams4 = this.state.knockout.quarter_finals.game_2.teams;
-              gameTeams4[1] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_2: {
-                      ...prevState.knockout.quarter_finals.game_2,
-                      teams: gameTeams4
-                    }
-                  }
-                }
-              }));
-              break;
-            case 'game_5':
-              let gameTeams5 = this.state.knockout.quarter_finals.game_3.teams;
-              gameTeams5[0] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_3: {
-                      ...prevState.knockout.quarter_finals.game_3,
-                      teams: gameTeams5
-                    }
-                  }
-                }
-              }));
-              break;
-            case 'game_6':
-              let gameTeams6 = this.state.knockout.quarter_finals.game_3.teams;
-              gameTeams6[1] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_3: {
-                      ...prevState.knockout.quarter_finals.game_3,
-                      teams: gameTeams6
-                    }
-                  }
-                }
-              }));
-              break;
-            case 'game_7':
-              let gameTeams7 = this.state.knockout.quarter_finals.game_4.teams;
-              gameTeams7[0] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_4: {
-                      ...prevState.knockout.quarter_finals.game_4,
-                      teams: gameTeams7
-                    }
-                  }
-                }
-              }));
-              break;
-            case 'game_8':
-              let gameTeams8 = this.state.knockout.quarter_finals.game_4.teams;
-              gameTeams8[1] = winner;
-              this.setState(prevState => ({
-                ...prevState,
-                knockout: {
-                  ...prevState.knockout,
-                  quarter_finals: {
-                    ...prevState.knockout.quarter_finals,
-                    game_4: {
-                      ...prevState.knockout.quarter_finals.game_4,
-                      teams: gameTeams8
-                    }
-                  }
-                }
-              }));
-              break;
-          }
-          break;
-        default:
-          break;
-      }
+      this.setState({ knockout: updatedKnockout });
     }
 
     render() {
-      console.log(this.state.knockout);
       return (
         <div className="main">
           {
@@ -560,23 +423,14 @@ class App extends Component {
                 <div className="knockout-round">
                   <h2>Semi-Finals</h2>
                   <div className="knockout-games ko-sf">
-                    <div className="game">
-                      <p>Team 1</p>
-                      <p>Team 2</p>
-                    </div>
-                    <div className="game">
-                      <p>Team 1</p>
-                      <p>Team 2</p>
-                    </div>
+                    <Game info={this.state.knockout.semi_finals.game_1} round="semi_finals" teamClick={this.onGameClick.bind(this)} />
+                    <Game info={this.state.knockout.semi_finals.game_2} round="semi_finals" teamClick={this.onGameClick.bind(this)} />
                   </div>
                 </div>
                 <div className="knockout-round">
                   <h2>Final</h2>
                   <div className="knockout-games ko-f">
-                    <div className="game">
-                      <p>Team 1</p>
-                      <p>Team 2</p>
-                    </div>
+                    <Game info={this.state.knockout.final} round="final" teamClick={this.onGameClick.bind(this)} />
                   </div>
                 </div>
               </div>
