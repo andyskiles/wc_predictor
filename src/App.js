@@ -251,35 +251,43 @@ class App extends Component {
             ...prevState.knockout.round_16,
             game_1: {
               ...prevState.knockout.round_16.game_1,
-              teams: ro16Matchups.game_1
+              teams: ro16Matchups.game_1,
+              winner: '',
             },
             game_2: {
               ...prevState.knockout.round_16.game_2,
-              teams: ro16Matchups.game_2
+              teams: ro16Matchups.game_2,
+              winner: '',
             },
             game_3: {
               ...prevState.knockout.round_16.game_3,
-              teams: ro16Matchups.game_3
+              teams: ro16Matchups.game_3,
+              winner: '',
             },
             game_4: {
               ...prevState.knockout.round_16.game_4,
-              teams: ro16Matchups.game_4
+              teams: ro16Matchups.game_4,
+              winner: '',
             },
             game_5: {
               ...prevState.knockout.round_16.game_5,
-              teams: ro16Matchups.game_5
+              teams: ro16Matchups.game_5,
+              winner: '',
             },
             game_6: {
               ...prevState.knockout.round_16.game_6,
-              teams: ro16Matchups.game_6
+              teams: ro16Matchups.game_6,
+              winner: '',
             },
             game_7: {
               ...prevState.knockout.round_16.game_7,
-              teams: ro16Matchups.game_7
+              teams: ro16Matchups.game_7,
+              winner: '',
             },
             game_8: {
               ...prevState.knockout.round_16.game_8,
-              teams: ro16Matchups.game_8
+              teams: ro16Matchups.game_8,
+              winner: '',
             },
           }
         }
@@ -296,8 +304,28 @@ class App extends Component {
         ro16Matchups.game_8
       ];
 
-      this.setState({ round_16: ro16 });
+      // reset knockout passed ro16 teams & winners
+      const knockout = this.state.knockout;
 
+      Object.keys(knockout.quarter_finals).forEach((key) => {
+        knockout.quarter_finals[key].winner = '';
+        knockout.quarter_finals[key].teams[0] = {};
+        knockout.quarter_finals[key].teams[1] = {};
+      });
+
+      Object.keys(knockout.semi_finals).forEach((key) => {
+        knockout.semi_finals[key].winner = '';
+        knockout.semi_finals[key].teams[0] = {};
+        knockout.semi_finals[key].teams[1] = {};
+      });
+
+      knockout.final.winner = '';
+      knockout.final.teams[0] = {};
+      knockout.final.teams[1] = {};
+
+      // knockout.round_16 = ro16;
+
+      // this.setState({ round_16: ro16 });
       this.setState({ stage: 'knockout' });
     }
 
