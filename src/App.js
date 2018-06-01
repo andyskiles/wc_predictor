@@ -1,199 +1,170 @@
 import React, { Component } from 'react';
-import cx from 'classnames';
-import DraggableList from 'react-draggable-list';
+import GroupStage from './components/GroupStage';
+import Game from './components/Game';
 import bracketUpdater from './bracket';
 import './App.css';
 
-class Group extends Component {
-  render() {
-    const {item, itemSelected, dragHandle} = this.props;
-    const scale = itemSelected * 0.05 + 1;
-    const shadow = itemSelected * 15 + 1;
-    const dragged = itemSelected !== 0;
-
-    return (
-      <div
-        className={cx('item', {dragged})}
-        style={{
-          transform: `scale(${scale})`,
-          boxShadow: `rgba(0, 0, 0, 0.3) 0px ${shadow}px ${2 * shadow}px 0px`
-        }}
-      >
-        {dragHandle(<div className="dragHandle" />)}
-        <h2>{ item.name }</h2>
-      </div>
-    );
-  }
-}
-
-const Game = (props) => {
-
-  const team1 = props.info.teams[0] ? props.info.teams[0] : '',
-        team2 = props.info.teams[1] ? props.info.teams[1] : '';
-
-  return (
-    <div className="game">
-      <a className={props.info.winner.name === team1.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team1, props.round) }}>{team1.name}</a>
-      <a className={props.info.winner.name === team2.name ? 'selected' : ''} onClick={() => { props.teamClick(props.info, team2, props.round) }}>{team2.name}</a>
-    </div>
-  );
-};
-
 class App extends Component {
 
-    state = {
-      name: '',
-      username: '',
-      stage: 'group',
-      group_stage: {
-        group_a: [
-          {id: 1, name: "Egypt", group: "A"},
-          {id: 2, name: "Russia", group: "A"},
-          {id: 3, name: "Saudi Arabia", group: "A"},
-          {id: 4, name: "Uruguay", group: "A"}
-        ],
-        group_b: [
-          {id: 5, name: "Iran", group: "B"},
-          {id: 6, name: "Morocco", group: "B"},
-          {id: 7, name: "Portugal", group: "B"},
-          {id: 8, name: "Spain", group: "B"}
-        ],
-        group_c: [
-          {id: 9, name: "Australia", group: "C"},
-          {id: 10, name: "Denmark", group: "C"},
-          {id: 11, name: "France", group: "C"},
-          {id: 12, name: "Peru", group: "C"}
-        ],
-        group_d: [
-          {id: 13, name: "Argentina", group: "D"},
-          {id: 14, name: "Croatia", group: "D"},
-          {id: 15, name: "Iceland", group: "D"},
-          {id: 16, name: "Nigeria", group: "D"}
-        ],
-        group_e: [
-          {id: 17, name: "Brazil", group: "E"},
-          {id: 18, name: "Costa Rica", group: "E"},
-          {id: 19, name: "Serbia", group: "E"},
-          {id: 20, name: "Switzerland", group: "E"}
-        ],
-        group_f: [
-          {id: 21, name: "Germany", group: "F"},
-          {id: 22, name: "South Korea", group: "F"},
-          {id: 23, name: "Mexico", group: "F"},
-          {id: 24, name: "Sweden", group: "F"}
-        ],
-        group_g: [
-          {id: 25, name: "Belgium", group: "G"},
-          {id: 26, name: "England", group: "G"},
-          {id: 27, name: "Panama", group: "G"},
-          {id: 28, name: "Tunisia", group: "G"}
-        ],
-        group_h: [
-          {id: 29, name: "Colombia", group: "H"},
-          {id: 30, name: "Japan", group: "H"},
-          {id: 31, name: "Poland", group: "H"},
-          {id: 32, name: "Senegal", group: "H"}
-        ]
-      },
-      knockout: {
-        round_16: {
-          game_1: {
-            id: 1,
-            teams: [],
-            winner: "",
-            ref: "Group A Winner vs. Group B Runner-up"
-          },
-          game_2: {
-            id: 2,
-            teams: [],
-            winner: "",
-            ref: "Group C Winner vs. Group D Runner-up"
-          },
-          game_3: {
-            id: 3,
-            teams: [],
-            winner: "",
-            ref: "Group E Winner vs. Group F Runner-up"
-          },
-          game_4: {
-            id: 4,
-            teams: [],
-            winner: "",
-            ref: "Group G Winner vs. Group H Runner-up"
-          },
-          game_5: {
-            id: 5,
-            teams: [],
-            winner: "",
-            ref: "Group B Winner vs. Group A Runner-up"
-          },
-          game_6: {
-            id: 6,
-            teams: [],
-            winner: "",
-            ref: "Group D Winner vs. Group C Runner-up"
-          },
-          game_7: {
-            id: 7,
-            teams: [],
-            winner: "",
-            ref: "Group F Winner vs. Group E Runner-up"
-          },
-          game_8: {
-            id: 8,
-            teams: [],
-            winner: "",
-            ref: "Group H Winner vs Group G Runner-up"
-          }
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        name: '',
+        username: '',
+        stage: 'group',
+        group_stage: {
+          group_a: [
+            {id: 1, name: "Egypt", group: "A"},
+            {id: 2, name: "Russia", group: "A"},
+            {id: 3, name: "Saudi Arabia", group: "A"},
+            {id: 4, name: "Uruguay", group: "A"}
+          ],
+          group_b: [
+            {id: 5, name: "Iran", group: "B"},
+            {id: 6, name: "Morocco", group: "B"},
+            {id: 7, name: "Portugal", group: "B"},
+            {id: 8, name: "Spain", group: "B"}
+          ],
+          group_c: [
+            {id: 9, name: "Australia", group: "C"},
+            {id: 10, name: "Denmark", group: "C"},
+            {id: 11, name: "France", group: "C"},
+            {id: 12, name: "Peru", group: "C"}
+          ],
+          group_d: [
+            {id: 13, name: "Argentina", group: "D"},
+            {id: 14, name: "Croatia", group: "D"},
+            {id: 15, name: "Iceland", group: "D"},
+            {id: 16, name: "Nigeria", group: "D"}
+          ],
+          group_e: [
+            {id: 17, name: "Brazil", group: "E"},
+            {id: 18, name: "Costa Rica", group: "E"},
+            {id: 19, name: "Serbia", group: "E"},
+            {id: 20, name: "Switzerland", group: "E"}
+          ],
+          group_f: [
+            {id: 21, name: "Germany", group: "F"},
+            {id: 22, name: "South Korea", group: "F"},
+            {id: 23, name: "Mexico", group: "F"},
+            {id: 24, name: "Sweden", group: "F"}
+          ],
+          group_g: [
+            {id: 25, name: "Belgium", group: "G"},
+            {id: 26, name: "England", group: "G"},
+            {id: 27, name: "Panama", group: "G"},
+            {id: 28, name: "Tunisia", group: "G"}
+          ],
+          group_h: [
+            {id: 29, name: "Colombia", group: "H"},
+            {id: 30, name: "Japan", group: "H"},
+            {id: 31, name: "Poland", group: "H"},
+            {id: 32, name: "Senegal", group: "H"}
+          ]
         },
-        quarter_finals: {
-          game_1: {
+        knockout: {
+          round_16: {
+            game_1: {
+              id: 1,
+              teams: [],
+              winner: "",
+              ref: "Group A Winner vs. Group B Runner-up"
+            },
+            game_2: {
+              id: 2,
+              teams: [],
+              winner: "",
+              ref: "Group C Winner vs. Group D Runner-up"
+            },
+            game_3: {
+              id: 3,
+              teams: [],
+              winner: "",
+              ref: "Group E Winner vs. Group F Runner-up"
+            },
+            game_4: {
+              id: 4,
+              teams: [],
+              winner: "",
+              ref: "Group G Winner vs. Group H Runner-up"
+            },
+            game_5: {
+              id: 5,
+              teams: [],
+              winner: "",
+              ref: "Group B Winner vs. Group A Runner-up"
+            },
+            game_6: {
+              id: 6,
+              teams: [],
+              winner: "",
+              ref: "Group D Winner vs. Group C Runner-up"
+            },
+            game_7: {
+              id: 7,
+              teams: [],
+              winner: "",
+              ref: "Group F Winner vs. Group E Runner-up"
+            },
+            game_8: {
+              id: 8,
+              teams: [],
+              winner: "",
+              ref: "Group H Winner vs Group G Runner-up"
+            }
+          },
+          quarter_finals: {
+            game_1: {
+              id: 1,
+              teams: [{}, {}],
+              winner: "",
+              ref: "RO16 Game 1 & 2 Winners"
+            },
+            game_2: {
+              id: 2,
+              teams: [{}, {}],
+              winner: "",
+              ref: "RO16 Game 3 & 4 Winners"
+            },
+            game_3: {
+              id: 3,
+              teams: [{}, {}],
+              winner: "",
+              ref: "RO16 Game 5 & 6 Winners"
+            },
+            game_4: {
+              id: 4,
+              teams: [{}, {}],
+              winner: "",
+              ref: "RO16 Game 7 & 8 Winners"
+            }
+          },
+          semi_finals: {
+            game_1: {
+              id: 1,
+              teams: [{}, {}],
+              winner: "",
+              ref: "QF Game 1 & 2 Winners"
+            },
+            game_2: {
+              id: 2,
+              teams: [{}, {}],
+              winner: "",
+              ref: "QF Game 3 & 4 Winners"
+            }
+          },
+          final: {
             id: 1,
             teams: [{}, {}],
             winner: "",
-            ref: "RO16 Game 1 & 2 Winners"
-          },
-          game_2: {
-            id: 2,
-            teams: [{}, {}],
-            winner: "",
-            ref: "RO16 Game 3 & 4 Winners"
-          },
-          game_3: {
-            id: 3,
-            teams: [{}, {}],
-            winner: "",
-            ref: "RO16 Game 5 & 6 Winners"
-          },
-          game_4: {
-            id: 4,
-            teams: [{}, {}],
-            winner: "",
-            ref: "RO16 Game 7 & 8 Winners"
+            ref: "SF Game 1 & 2 Winners"
           }
-        },
-        semi_finals: {
-          game_1: {
-            id: 1,
-            teams: [{}, {}],
-            winner: "",
-            ref: "QF Game 1 & 2 Winners"
-          },
-          game_2: {
-            id: 2,
-            teams: [{}, {}],
-            winner: "",
-            ref: "QF Game 3 & 4 Winners"
-          }
-        },
-        final: {
-          id: 1,
-          teams: [{}, {}],
-          winner: "",
-          ref: "SF Game 1 & 2 Winners"
         }
-      }
-    };
+      };
+
+      this.onListChange = this.onListChange.bind(this);
+    }
 
     onListChange(newList, group) {
       this.setState(prevState => ({
@@ -346,80 +317,9 @@ class App extends Component {
           {
             this.state.stage === 'group' ?
             <div>
-            <div className="list">
-              <h2>Group A</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_a}
-                onMoveEnd={newList => this.onListChange(newList, 'group_a')}
-              />
+              <GroupStage groups={this.state.group_stage} onListChange={this.onListChange} />
+              <button onClick={this.toKnockout.bind(this)}>VAMOS</button>
             </div>
-            <div className="list">
-              <h2>Group B</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_b}
-                onMoveEnd={newList => this.onListChange(newList, 'group_b')}
-              />
-            </div>
-            <div className="list">
-              <h2>Group C</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_c}
-                onMoveEnd={newList => this.onListChange(newList, 'group_c')}
-              />
-            </div>
-            <div className="list">
-              <h2>Group D</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_d}
-                onMoveEnd={newList => this.onListChange(newList, 'group_d')}
-              />
-            </div>
-            <div className="list">
-              <h2>Group E</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_e}
-                onMoveEnd={newList => this.onListChange(newList, 'group_e')}
-              />
-            </div>
-            <div className="list">
-              <h2>Group F</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_f}
-                onMoveEnd={newList => this.onListChange(newList, 'group_f')}
-              />
-            </div>
-            <div className="list">
-              <h2>Group G</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_g}
-                onMoveEnd={newList => this.onListChange(newList, 'group_g')}
-              />
-            </div>
-            <div className="list">
-              <h2>Group H</h2>
-              <DraggableList
-                itemKey="name"
-                template={Group}
-                list={this.state.group_stage.group_h}
-                onMoveEnd={newList => this.onListChange(newList, 'group_h')}
-              />
-            </div>
-            <button onClick={this.toKnockout.bind(this)}>VAMOS</button>
-          </div>
           : <div className="knockout">
               <h1>Knockout</h1>
               <div className="knockout-rounds">

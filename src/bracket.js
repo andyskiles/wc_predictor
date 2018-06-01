@@ -25,6 +25,12 @@ const bracketUpdater = (bracket, round, gameKey, winner) => {
     } else {
       quarterFinals.game_4.winner = '';
     }
+  } else if (round === 'quarter_finals') {
+    if (gameKey === 'game_1' || gameKey === 'game_2') {
+      semiFinals.game_1.winner = '';
+    } else {
+      semiFinals.game_2.winner = '';
+    }
   }
 
   // round 16 updater
