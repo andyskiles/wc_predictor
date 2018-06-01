@@ -25,7 +25,6 @@ class Group extends Component {
 }
 
 const GroupStage = (props) => {
-  console.log(props);
   return (
     <div>
       <div className="list">

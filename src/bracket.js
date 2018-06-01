@@ -5,9 +5,6 @@ const bracketUpdater = (bracket, round, gameKey, winner) => {
   const semiFinals = newBracket.semi_finals;
   const final = newBracket.final;
 
-  console.log(round);
-  console.log(gameKey);
-
   // set winner
   if (round !== 'final') {
     newBracket[round][gameKey].winner = winner;
