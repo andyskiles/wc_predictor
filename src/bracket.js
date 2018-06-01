@@ -5,11 +5,26 @@ const bracketUpdater = (bracket, round, gameKey, winner) => {
   const semiFinals = newBracket.semi_finals;
   const final = newBracket.final;
 
+  console.log(round);
+  console.log(gameKey);
+
   // set winner
   if (round !== 'final') {
     newBracket[round][gameKey].winner = winner;
   } else {
     newBracket.final.winner = winner;
+  }
+
+  if (round === 'round_16') {
+    if (gameKey === 'game_1' || gameKey === 'game_2') {
+      quarterFinals.game_1.winner = '';
+    } else if (gameKey === 'game_3' || gameKey === 'game_4') {
+      quarterFinals.game_2.winner = '';
+    } else if (gameKey === 'game_5' || gameKey === 'game_6') {
+      quarterFinals.game_3.winner = '';
+    } else {
+      quarterFinals.game_4.winner = '';
+    }
   }
 
   // round 16 updater

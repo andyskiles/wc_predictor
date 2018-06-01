@@ -323,9 +323,6 @@ class App extends Component {
       knockout.final.teams[0] = {};
       knockout.final.teams[1] = {};
 
-      // knockout.round_16 = ro16;
-
-      // this.setState({ round_16: ro16 });
       this.setState({ stage: 'knockout' });
     }
 
