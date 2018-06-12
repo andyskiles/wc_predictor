@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from './firebase';
 import GroupStage from './components/GroupStage';
 import Game from './components/Game';
 import bracketUpdater from './bracket';
@@ -311,6 +312,11 @@ class App extends Component {
       this.setState({ knockout: updatedKnockout });
     }
 
+    submitPicks() {
+      const picks = firebase.database().ref('picks');
+      picks.push(this.state);
+    }
+
     render() {
       return (
         <div className="main">
@@ -359,6 +365,7 @@ class App extends Component {
                   </div>
                 </div>
               </div>
+              <button onClick={this.submitPicks.bind(this)}>SUBMIT</button>
               <button onClick={this.toGroupStage.bind(this)}>GROUP STAGE</button>
             </div>
           }
